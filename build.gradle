@@ -1,0 +1,51 @@
+buildscript {
+    ext {
+        getArcHash = {
+            return new Properties().with{ p -> p.load(file('gradle.properties').newReader()); return p }["archash"]
+        }
+
+        arcHash = getArcHash()
+        arcVersion = "v135"
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+
+    dependencies {
+        classpath "com.github.Anuken.Arc:arc-core:$arcVersion"
+        classpath "com.github.Anuken.Arc:packer:$arcVersion"
+    }
+}
+
+allprojects {
+    version = '1.0'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+project(":core") {
+    apply plugin: "java"
+
+    dependencies {
+        implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
+        implementation "com.github.Anuken.Arc:packer:$arcVersion"
+        implementation "com.github.Anuken.Arc:freetype:$arcVersion"
+    }
+}
+
+project(":desktop") {
+    apply plugin: "java"
+
+    dependencies {
+        implementation project(":core")
+        implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
+        implementation "com.github.Anuken.Arc:backend-sdl:$arcVersion"
+        implementation "com.github.Anuken.Arc:natives-desktop:$arcVersion"
+        implementation "com.github.Anuken.Arc:natives-freetype-desktop:$arcVersion"
+    }
+}

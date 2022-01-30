@@ -1,0 +1,32 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = ["src/"]
+
+ext {
+    mainClassName = "galactital.desktop.DesktopLauncher"
+    assetsDir = new File("../core/assets")
+}
+
+task run(dependsOn: [classes], type: JavaExec) {
+    mainClass = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}
+
+task dist(dependsOn: [classes], type: Jar) {
+    from(sourceSets.main.output.classesDirs) { include "**" }
+    from(sourceSets.main.output.resourcesDir) { include "**" }
+    from(project.assetsDir) { include "**" }
+    from {
+        configurations.compileClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}

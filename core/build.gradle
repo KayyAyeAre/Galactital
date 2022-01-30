@@ -1,0 +1,12 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = ["src/"]
+
+import arc.packer.TexturePacker
+
+task pack {
+    doLast {
+        TexturePacker.process("$project.rootDir/core/assets-raw/sprites/", "$project.rootDir/core/assets/sprites/", "sprites.aatls")
+    }
+}
