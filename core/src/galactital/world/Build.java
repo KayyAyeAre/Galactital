@@ -26,7 +26,7 @@ public class Build {
                 int worldy = dy + offset + y;
 
                 Tile check = Global.spacecraft.get(worldx, worldy);
-                if (!check.isEmpty()) return false;
+                if (!check.isEmpty() || (check.floor() == null && !(block instanceof Floor))) return false;
             }
         }
         return true;

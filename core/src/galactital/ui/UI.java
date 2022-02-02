@@ -5,12 +5,16 @@ import arc.assets.*;
 import arc.scene.*;
 import arc.scene.event.*;
 import arc.scene.ui.layout.*;
+import galactital.*;
+import galactital.ui.dialogs.*;
 import galactital.ui.frag.*;
 
 public class UI implements ApplicationListener, Loadable {
     public WidgetGroup menuGroup, hudGroup;
 
+    public MenuFragment menufrag;
     public HudFragment hudfrag;
+    public PlayDialog playDialog;
 
     public UI() {
         Fonts.load();
@@ -18,19 +22,32 @@ public class UI implements ApplicationListener, Loadable {
 
     @Override
     public void loadSync() {
+        Fonts.def.getData().markupEnabled = true;
+
+        Core.scene = new Scene();
+        Core.input.addProcessor(Core.scene);
+
+        UIStyles.load();
         load();
     }
 
     public void load() {
-        Core.scene = new Scene();
-        UIStyles.load();
         menuGroup = new WidgetGroup();
+        menuGroup.setFillParent(true);
+        menuGroup.touchable = Touchable.childrenOnly;
+        menuGroup.visible(() -> Global.state.isMenu());
         hudGroup = new WidgetGroup();
         hudGroup.setFillParent(true);
         hudGroup.touchable = Touchable.childrenOnly;
+        hudGroup.visible(() -> Global.state.isPlaying());
+        Core.scene.add(menuGroup);
         Core.scene.add(hudGroup);
 
+        playDialog = new PlayDialog();
+        menufrag = new MenuFragment();
         hudfrag = new HudFragment();
+
+        menufrag.build(menuGroup);
         hudfrag.build(hudGroup);
     }
 

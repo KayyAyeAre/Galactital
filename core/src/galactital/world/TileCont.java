@@ -7,8 +7,8 @@ import galactital.entity.*;
 
 public class TileCont {
     Tile[][] arr;
-    final int width, height;
-    final Spacecraft parent;
+    public final int width, height;
+    public final Spacecraft parent;
 
     public TileCont(int width, int height, Spacecraft parent) {
         arr = new Tile[width][height];
@@ -29,7 +29,12 @@ public class TileCont {
     public Tile get(int x, int y) {
         int realX = x + (width / 2);
         int realY = y + (height / 2);
-        return (realX < 0 || realX >= width || realY < 0 || realY >= height) ? null : arr[realX][realY];
+        return getr(realX, realY);
+    }
+
+    @Nullable
+    public Tile getr(int x, int y) {
+        return (x < 0 || x >= width || y < 0 || y >= height) ? null : arr[x][y];
     }
 
     public void each(Cons<Tile> cons) {

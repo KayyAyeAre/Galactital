@@ -43,4 +43,8 @@ public class ContentLoader {
     public Seq<Block> blocks() {
         return getBy(ContentType.block);
     }
+
+    public Block block(int id) {
+        return blocks().get(id);
+    }
 }

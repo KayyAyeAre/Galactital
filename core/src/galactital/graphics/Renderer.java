@@ -13,18 +13,19 @@ public class Renderer implements ApplicationListener {
 
     @Override
     public void update() {
-        //rotation and other stuff
-        rotOffset = Mathf.lerpDelta(rotOffset, Global.state.spacecraft ? 0 : -Global.spacecraft.rotation, 0.12f);
-        Core.camera.position.lerpDelta(Global.state.spacecraft ? Global.spacecraft : Global.player, 0.12f).rotate(rotOffset);
-        Core.camera.mat.rotate(rotOffset);
-
-        //actual drawing
         Core.camera.update();
         Draw.reset();
         Core.graphics.clear(Color.rgb(0, 0, 5 + (int) Mathf.absin(65, 10)));
         Draw.proj(Core.camera);
-        Groups.spacecraft.each(Spacecraft::draw);
-        Groups.player.each(Player::draw);
+        if (Global.state.isPlaying()) {
+            //rotation and other stuff
+            rotOffset = Mathf.lerpDelta(rotOffset, Global.state.spacecraft ? 0 : -Global.spacecraft.rotation, 0.12f);
+            Core.camera.position.lerpDelta(Global.state.spacecraft ? Global.spacecraft : Global.player, 0.12f).rotate(rotOffset);
+            Core.camera.mat.rotate(rotOffset);
+
+            Groups.spacecraft.each(Spacecraft::draw);
+            Groups.player.each(Player::draw);
+        }
         Draw.reset();
         Draw.flush();
     }

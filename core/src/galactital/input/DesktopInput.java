@@ -6,7 +6,6 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import galactital.*;
-import galactital.content.*;
 import galactital.world.*;
 
 public class DesktopInput extends InputHandler {
@@ -21,6 +20,7 @@ public class DesktopInput extends InputHandler {
     public void update() {
         int selectedX = (int) (Global.spacecraft.x + Angles.trnsx(Global.renderer.rotOffset, Core.input.mouseWorldX(), Core.input.mouseWorldY()) / 16);
         int selectedY = (int) (Global.spacecraft.y + Angles.trnsy(Global.renderer.rotOffset, Core.input.mouseWorldX(), Core.input.mouseWorldY()) / 16);
+        if (Global.state.isMenu()) return;
         if (Core.input.keyTap(KeyCode.h)) currentBlock++;
         currentBlock %= buildBlocks.size;
         Block build = buildBlocks.get(currentBlock);

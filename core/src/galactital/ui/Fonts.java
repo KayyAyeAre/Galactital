@@ -38,10 +38,8 @@ public class Fonts {
             }
         });
 
-        Core.assets.load("default", Font.class, new FreeTypeFontLoaderParameter("fonts/font.woff", new FreeTypeFontParameter() {{
+        Core.assets.load("default", Font.class, new FreeTypeFontLoaderParameter("fonts/font.ttf", new FreeTypeFontParameter() {{
             size = 18;
-            shadowColor = Color.darkGray;
-            shadowOffsetY = 2;
             incremental = true;
         }})).loaded = f -> Fonts.def = f;
     }

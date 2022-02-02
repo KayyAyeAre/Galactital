@@ -19,6 +19,7 @@ public class Global implements Loadable {
     public static Inventory inventory;
     public static UI ui;
     public static Fi dataDirectory;
+    public static Fi saveDirectory;
 
     @Override
     public void loadAsync() {
@@ -27,11 +28,13 @@ public class Global implements Loadable {
 
     public static void load() {
         dataDirectory = Core.settings.getDataDirectory();
+        saveDirectory = dataDirectory.child("saves/");
+
         state = new GameState();
         content = new ContentLoader();
         inventory = new Inventory();
 
-        spacecraft = new Spacecraft();
+        spacecraft = new Spacecraft(true);
         player = new Player();
     }
 }

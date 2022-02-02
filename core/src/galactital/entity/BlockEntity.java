@@ -20,9 +20,10 @@ public class BlockEntity extends Entity {
     }
 
     public void draw() {
-        type.draw(this.tile);
+        type.draw(tile);
     }
 
     @Override
-    public void update() {}
+    public void update() {
+    }
 }

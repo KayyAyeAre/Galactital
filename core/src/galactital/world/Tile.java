@@ -8,7 +8,7 @@ public class Tile {
     public int x;
     public int y;
     public @Nullable BlockEntity entity;
-    protected @Nullable Floor floor;
+    private @Nullable Floor floor;
 
     public Tile(int x, int y, Spacecraft parent) {
         this.x = x;
