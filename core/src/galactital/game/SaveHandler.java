@@ -24,7 +24,7 @@ public class SaveHandler {
     }
 
     public void update() {
-        if (Global.state.isPlaying() && current != null) {
+        if (Global.state.isGame() && current != null) {
             saveCounter += Time.delta;
             if (saveCounter > 30 * 60) {
                 saving = true;

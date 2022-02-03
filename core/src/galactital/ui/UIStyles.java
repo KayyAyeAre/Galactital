@@ -10,16 +10,18 @@ import arc.scene.ui.Label.*;
 import arc.scene.ui.ScrollPane.*;
 import arc.scene.ui.TextButton.*;
 import arc.scene.ui.TextField.*;
+import galactital.annotations.Annotations.*;
 
+@DefaultStyles
 public class UIStyles {
     public static Drawable black, halfBlack, gray, blackBordered, bDown, bUp;
 
-    public static DialogStyle dialogStyle;
-    public static LabelStyle labelStyle;
-    public static TextButtonStyle tButtonStyle;
-    public static ButtonStyle buttonStyle;
-    public static TextFieldStyle tFieldStyle;
-    public static ScrollPaneStyle sPaneStyle;
+    public static DialogStyle defDialog;
+    public static LabelStyle defLabel;
+    public static TextButtonStyle defTextButton;
+    public static ButtonStyle defButton;
+    public static TextFieldStyle defTextField;
+    public static ScrollPaneStyle defScrollPane;
 
     public static void load() {
         black = ((TextureRegionDrawable) Core.atlas.drawable("whiteui")).tint(0, 0, 0, 1f);
@@ -30,24 +32,24 @@ public class UIStyles {
         bDown = new NinePatchDrawable(new NinePatch(Core.atlas.find("button-down"), 7, 7, 7, 7));
 
         //default styles
-        labelStyle = new LabelStyle() {{
+        defLabel = new LabelStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
         }};
-        dialogStyle = new DialogStyle() {{
+        defDialog = new DialogStyle() {{
             stageBackground = halfBlack;
             titleFont = Fonts.def;
         }};
-        buttonStyle = new ButtonStyle() {{
+        defButton = new ButtonStyle() {{
             up = bUp;
             down = bDown;
         }};
-        tButtonStyle = new TextButtonStyle() {{
+        defTextButton = new TextButtonStyle() {{
             up = bUp;
             down = bDown;
             font = Fonts.def;
         }};
-        tFieldStyle = new TextFieldStyle() {{
+        defTextField = new TextFieldStyle() {{
             font = Fonts.def;
             fontColor = Color.white;
             disabledFontColor = Color.gray;
@@ -55,16 +57,9 @@ public class UIStyles {
             messageFontColor = Color.gray;
         }};
 
-        sPaneStyle = new ScrollPaneStyle() {{
+        defScrollPane = new ScrollPaneStyle() {{
             background = black;
             vScrollKnob = gray;
         }};
-
-        Core.scene.addStyle(LabelStyle.class, labelStyle);
-        Core.scene.addStyle(ButtonStyle.class, buttonStyle);
-        Core.scene.addStyle(TextButtonStyle.class, tButtonStyle);
-        Core.scene.addStyle(TextFieldStyle.class, tFieldStyle);
-        Core.scene.addStyle(ScrollPaneStyle.class, sPaneStyle);
-        Core.scene.addStyle(DialogStyle.class, dialogStyle);
     }
 }

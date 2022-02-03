@@ -13,6 +13,14 @@ public class GameState {
         return state == State.playing;
     }
 
+    public boolean isPaused() {
+        return state == State.paused;
+    }
+
+    public boolean isGame() {
+        return state != State.menu;
+    }
+
     public State getState() {
         return state;
     }
@@ -22,6 +30,6 @@ public class GameState {
     }
 
     public enum State {
-        playing, menu
+        playing, paused, menu
     }
 }

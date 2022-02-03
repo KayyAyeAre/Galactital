@@ -2,11 +2,12 @@ package galactital.game;
 
 import arc.*;
 import arc.assets.*;
+import arc.input.*;
 import arc.util.*;
 import galactital.*;
-import galactital.input.*;
-import galactital.game.SaveHandler.*;
 import galactital.game.GameState.*;
+import galactital.game.SaveHandler.*;
+import galactital.input.*;
 
 public class Control implements ApplicationListener, Loadable {
     public SaveHandler saveHandler;
@@ -16,13 +17,9 @@ public class Control implements ApplicationListener, Loadable {
         saveHandler = new SaveHandler();
     }
 
-    @Override
-    public void update() {
-        Groups.update();
-        saveHandler.update();
-        if (input != null) {
-            input.update();
-        }
+    public void playSave(SaveSlot save) {
+        Global.state.setState(State.playing);
+        save.load();
     }
 
     @Override
@@ -33,14 +30,30 @@ public class Control implements ApplicationListener, Loadable {
         }
     }
 
-    public void playSave(SaveSlot save) {
-        Global.state.setState(State.playing);
-        save.load();
-    }
-
     @Override
     public void loadAsync() {
         saveHandler.load();
         input = new DesktopInput();
+    }
+
+    @Override
+    public void update() {
+        Groups.update();
+        saveHandler.update();
+
+        if (Global.state.isGame()) {
+            input.update();
+        }
+
+        try {
+            Core.assets.update();
+        } catch (Exception ignored) {}
+
+        if (Core.input.keyTap(KeyCode.escape)) {
+            if (!Global.ui.pauseDialog.isShown() && !Core.scene.hasDialog() && Global.state.isGame()) {
+                Global.ui.pauseDialog.show();
+                Global.state.setState(State.paused);
+            }
+        }
     }
 }

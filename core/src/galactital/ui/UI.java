@@ -14,7 +14,9 @@ public class UI implements ApplicationListener, Loadable {
 
     public MenuFragment menufrag;
     public HudFragment hudfrag;
+
     public PlayDialog playDialog;
+    public PauseDialog pauseDialog;
 
     public UI() {
         Fonts.load();
@@ -39,11 +41,13 @@ public class UI implements ApplicationListener, Loadable {
         hudGroup = new WidgetGroup();
         hudGroup.setFillParent(true);
         hudGroup.touchable = Touchable.childrenOnly;
-        hudGroup.visible(() -> Global.state.isPlaying());
+        hudGroup.visible(() -> Global.state.isGame());
         Core.scene.add(menuGroup);
         Core.scene.add(hudGroup);
 
         playDialog = new PlayDialog();
+        pauseDialog = new PauseDialog();
+
         menufrag = new MenuFragment();
         hudfrag = new HudFragment();
 

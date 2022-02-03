@@ -17,7 +17,7 @@ public class Renderer implements ApplicationListener {
         Draw.reset();
         Core.graphics.clear(Color.rgb(0, 0, 5 + (int) Mathf.absin(65, 10)));
         Draw.proj(Core.camera);
-        if (Global.state.isPlaying()) {
+        if (Global.state.isGame()) {
             //rotation and other stuff
             rotOffset = Mathf.lerpDelta(rotOffset, Global.state.spacecraft ? 0 : -Global.spacecraft.rotation, 0.12f);
             Core.camera.position.lerpDelta(Global.state.spacecraft ? Global.spacecraft : Global.player, 0.12f).rotate(rotOffset);
