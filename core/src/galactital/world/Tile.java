@@ -37,7 +37,12 @@ public class Tile {
     }
 
     public void setBlock(Block type) {
-        entity = type.buildType.get(x, y, this);
+        setBlock(type, null);
+    }
+
+    public void setBlock(Block type, BlockEntityFunc entityProv) {
+        if (entityProv == null) entityProv = type.buildType;
+        entity = entityProv.get(this);
 
         if (type.size > 1) {
             int offset = -(type.size - 1) / 2;

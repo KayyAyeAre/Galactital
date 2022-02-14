@@ -7,17 +7,19 @@ import arc.graphics.g2d.*;
 import arc.util.*;
 import galactital.content.type.*;
 import galactital.game.*;
+import galactital.game.EventTypes.*;
 import galactital.graphics.*;
 import galactital.ui.*;
 
 public abstract class Launcher extends ApplicationCore {
     private boolean loadFinish = false;
     private long beginTime;
+    private LoadRenderer loadRenderer;
 
     @Override
     public void setup() {
+        loadRenderer = new LoadRenderer();
         beginTime = Time.millis();
-        Core.settings.setAppName("Galactital");
         Core.assets = new AssetManager();
         Core.batch = new SortedSpriteBatch();
         Core.camera = new Camera();
@@ -43,13 +45,18 @@ public abstract class Launcher extends ApplicationCore {
     @Override
     public void update() {
         if (!loadFinish) {
+            if (loadRenderer != null) {
+                loadRenderer.draw();
+            }
             if (Core.assets.update()) {
+                loadRenderer = null;
                 Log.info("Total loading time: @ms", Time.timeSinceMillis(beginTime));
                 for (ApplicationListener listener : modules) {
                     listener.init();
                 }
                 loadFinish = true;
                 resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+                Events.fire(new LoadFinishEvent());
             }
         } else super.update();
     }

@@ -1,6 +1,5 @@
 package galactital.world;
 
-import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -12,8 +11,10 @@ public class Block extends Content {
     public String name;
     public int size = 1;
     public float offset;
-    public Func3<Integer, Integer, Tile, BlockEntity> buildType;
+    public BlockEntityFunc buildType;
     public boolean hidden;
+    public boolean hasInventory;
+    public boolean configurable;
 
     public Block(String name) {
         super(name);
@@ -28,7 +29,7 @@ public class Block extends Content {
     @Override
     public void init() {
         offset = ((size + 1) % 2) / 2f;
-        buildType = (x, y, tile) -> new BlockEntity(x + offset, y + offset, this, tile, tile.parent);
+        buildType = tile -> new BlockEntity(tile.x + offset, tile.y + offset, this, tile, tile.parent);
     }
 
     public void draw(Tile tile) {

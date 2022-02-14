@@ -5,7 +5,7 @@ import galactital.game.GameState.*;
 
 public class PauseDialog extends BaseDialog {
     public PauseDialog() {
-        super("Menu");
+        super("@menu");
 
         shouldPause = true;
         shown(this::rebuild);
@@ -19,8 +19,9 @@ public class PauseDialog extends BaseDialog {
             if (Global.state.isMenu() && isShown()) hide();
         });
 
-        cont.button("Back", this::hide).width(120);
-        cont.button("Exit to Menu", () -> {
+        cont.button("@back", this::hide).width(120);
+        cont.button("@settings", Global.ui.settingsDialog::show).width(120);
+        cont.button("@menu.exit", () -> {
             Global.state.setState(State.menu);
             hide();
         }).width(120);

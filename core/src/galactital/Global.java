@@ -3,11 +3,15 @@ package galactital;
 import arc.*;
 import arc.assets.*;
 import arc.files.*;
+import arc.util.*;
 import galactital.content.type.*;
 import galactital.entity.*;
 import galactital.game.*;
 import galactital.graphics.*;
+import galactital.input.*;
 import galactital.ui.*;
+
+import java.util.*;
 
 public class Global implements Loadable {
     public static Spacecraft spacecraft;
@@ -16,13 +20,13 @@ public class Global implements Loadable {
     public static GameState state;
     public static Control control;
     public static ContentLoader content;
-    public static Inventory inventory;
     public static UI ui;
     public static Fi dataDirectory;
     public static Fi saveDirectory;
 
     @Override
     public void loadAsync() {
+        loadSettings();
         load();
     }
 
@@ -32,9 +36,12 @@ public class Global implements Loadable {
 
         state = new GameState();
         content = new ContentLoader();
-        inventory = new Inventory();
+    }
 
-        spacecraft = new Spacecraft(true);
-        player = new Player();
+    public static void loadSettings() {
+        Core.settings.setAppName("Galactital");
+        Core.keybinds.setDefaults(Binding.values());
+
+        Core.bundle = I18NBundle.createBundle(Core.files.internal("bundles/bundle"), Locale.getDefault());
     }
 }

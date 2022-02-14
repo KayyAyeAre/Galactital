@@ -5,6 +5,8 @@ import arc.assets.*;
 import arc.input.*;
 import arc.util.*;
 import galactital.*;
+import galactital.entity.*;
+import galactital.game.EventTypes.*;
 import galactital.game.GameState.*;
 import galactital.game.SaveHandler.*;
 import galactital.input.*;
@@ -18,8 +20,14 @@ public class Control implements ApplicationListener, Loadable {
     }
 
     public void playSave(SaveSlot save) {
-        Global.state.setState(State.playing);
+        initWorld();
         save.load();
+        Global.state.setState(State.playing);
+    }
+
+    public void initWorld() {
+        Global.player = new Player();
+        Global.spacecraft = new Spacecraft();
     }
 
     @Override
@@ -34,6 +42,7 @@ public class Control implements ApplicationListener, Loadable {
     public void loadAsync() {
         saveHandler.load();
         input = new DesktopInput();
+        Events.on(LoadFinishEvent.class, e -> input.add());
     }
 
     @Override

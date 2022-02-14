@@ -20,6 +20,7 @@ public class MenuFragment extends Fragment {
     }
 
     private void rebuild() {
-        container.button("Play", Global.ui.playDialog::show).size(100, 60);
+        container.button("@play", Global.ui.playDialog::show).size(240, 60);
+        container.button("@settings", Global.ui.settingsDialog::show).size(240, 60);
     }
 }

@@ -3,10 +3,13 @@ package galactital.ui.frag;
 import arc.*;
 import arc.scene.ui.layout.*;
 import galactital.*;
-import galactital.type.*;
+import galactital.game.EventTypes.*;
+import galactital.game.Inventory.*;
 import galactital.ui.*;
 
 public class HudFragment extends Fragment {
+    private Table cont;
+
     @Override
     public void build(WidgetGroup parent) {
         //menu in the top left
@@ -25,15 +28,25 @@ public class HudFragment extends Fragment {
         parent.fill(inv -> {
             inv.name = "inventory";
             inv.bottom();
-            inv.table(t -> {
-                for (ContentStack stack : Global.inventory.stacks) {
-                    t.table(UIStyles.blackBordered, slot -> {
-                        if (stack.isEmpty()) return;
-                        slot.image(stack.type().region);
-                        slot.label(() -> "" + stack.amount()).bottom().right().marginBottom(10).marginRight(10);
-                    }).width(64).height(64);
-                }
-            }).marginBottom(10);
+            cont = inv;
+            rebuildInventory();
         });
+
+        Events.run(InventoryUpdateEvent.class, this::rebuildInventory);
+    }
+
+    void rebuildInventory() {
+        if (Global.player == null) return;
+        cont.clear();
+
+        cont.table(t -> {
+            for (InventorySlot slot : Global.player.inventory.slots) {
+                t.table(slot == Global.player.inventory.selected() ? UIStyles.whiteBordered : UIStyles.blackBordered, slotTable -> {
+                    if (slot.isEmpty()) return;
+                    slotTable.image(slot.type().region);
+                    slotTable.label(() -> "" + slot.amount()).bottom().right().marginBottom(10).marginRight(10);
+                }).width(64).height(64);
+            }
+        }).marginBottom(10);
     }
 }

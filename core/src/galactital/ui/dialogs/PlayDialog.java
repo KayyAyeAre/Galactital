@@ -9,6 +9,7 @@ import arc.scene.ui.layout.*;
 import arc.util.*;
 import galactital.*;
 import galactital.game.SaveHandler.*;
+import galactital.ui.*;
 
 public class PlayDialog extends BaseDialog {
     private ScrollPane pane;
@@ -16,16 +17,15 @@ public class PlayDialog extends BaseDialog {
     private WorldCreateDialog worldCreateDialog = new WorldCreateDialog();
 
     public PlayDialog() {
-        super("Play");
+        super("@play");
         addCloseButton();
-        setup();
         shown(this::setup);
     }
 
     private void setup() {
         cont.clear();
         slots = new Table();
-        pane = new ScrollPane(slots);
+        pane = new ScrollPane(slots, UIStyles.borderedScrollPane);
         pane.setScrollingDisabled(true, false);
         TextureRegion def = Core.atlas.find("nopreview");
 
@@ -48,7 +48,7 @@ public class PlayDialog extends BaseDialog {
             button.table(t -> {
                 t.add(slot.name).left().width(600).wrap();
                 t.row();
-                t.add("[gray]Saved as " + slot.file.name()).left().width(600).wrap();
+                t.add(Core.bundle.format("play.savedas", slot.file.name())).left().width(600).wrap();
             }).grow().left();
 
             button.clicked(() -> {
@@ -59,7 +59,7 @@ public class PlayDialog extends BaseDialog {
             slots.add(button).width(750).height(160).growX().uniformX();
             slots.row();
         }
-        slots.button("Create New World", worldCreateDialog::show).width(250);
+        slots.button("@play.createworld", worldCreateDialog::show).width(250);
 
         cont.add(pane);
     }

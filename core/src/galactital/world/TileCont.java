@@ -44,4 +44,12 @@ public class TileCont {
             }
         }
     }
+
+    public void each(Boolf<Tile> pred, Cons<Tile> cons) {
+        for (Tile[] arr2 : arr) {
+            for (Tile tile : arr2) {
+                if (pred.get(tile)) cons.get(tile);
+            }
+        }
+    }
 }

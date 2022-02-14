@@ -11,6 +11,7 @@ import galactital.io.*;
 import static galactital.Global.saveDirectory;
 
 public class SaveHandler {
+    public boolean autoSave;
     Seq<SaveSlot> saves = new Seq<>();
     private @Nullable SaveSlot current;
     private float saveCounter;
@@ -24,7 +25,7 @@ public class SaveHandler {
     }
 
     public void update() {
-        if (Global.state.isGame() && current != null) {
+        if (Global.state.isGame() && current != null && autoSave) {
             saveCounter += Time.delta;
             if (saveCounter > 30 * 60) {
                 saving = true;
@@ -94,7 +95,7 @@ public class SaveHandler {
         }
 
         public void savePreview() {
-            ScreenUtils.saveScreenshot(previewFile(), Core.graphics.getWidth() / 2 - 256, Core.graphics.getHeight() / 2 - 256, 512, 512);
+            if (Core.settings.getBool("save-previews")) ScreenUtils.saveScreenshot(previewFile(), Core.graphics.getWidth() / 2 - 256, Core.graphics.getHeight() / 2 - 256, 512, 512);
         }
 
         public void load() {

@@ -2,6 +2,8 @@ package galactital.annotations;
 
 import arc.files.*;
 import arc.util.*;
+import com.squareup.javapoet.*;
+import com.sun.source.util.*;
 
 import javax.annotation.processing.*;
 import javax.lang.model.*;
@@ -14,8 +16,9 @@ import java.util.*;
 public abstract class BaseProcessor extends AbstractProcessor {
     public static final String packageName = "galactital.gen";
     public static Filer filer;
+    public static Trees trees;
 
-    protected int round, rounds;
+    protected int round, rounds = 1;
     protected Fi rootDirectory;
     protected RoundEnvironment roundEnv;
 
@@ -23,6 +26,7 @@ public abstract class BaseProcessor extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment env) {
         super.init(env);
         filer = env.getFiler();
+        trees = Trees.instance(env);
     }
 
     @Override
@@ -53,4 +57,8 @@ public abstract class BaseProcessor extends AbstractProcessor {
     }
 
     public abstract void process(RoundEnvironment env) throws Exception;
+
+    public void writeFile(TypeSpec type) throws IOException {
+        JavaFile.builder(packageName, type).build().writeTo(filer);
+    }
 }

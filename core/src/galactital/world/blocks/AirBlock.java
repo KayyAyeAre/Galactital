@@ -6,7 +6,7 @@ public class AirBlock extends Floor {
     public AirBlock(String name) {
         super(name);
         hidden = true;
-        buildType = (x, y, tile) -> null;
+        buildType = (tile) -> null;
     }
 
     @Override

@@ -5,11 +5,11 @@ import galactital.*;
 
 public class WorldCreateDialog extends BaseDialog {
     public WorldCreateDialog() {
-        super("Create New World");
+        super("@play.createworld");
         addCloseButton();
         TextField field = cont.add(new TextField("New World")).get();
         cont.row();
-        cont.button("Create", () -> {
+        cont.button("@play.createworld.create", () -> {
             hide();
             Global.ui.playDialog.hide();
             Global.control.playSave(Global.control.saveHandler.addSave(field.getText()));
